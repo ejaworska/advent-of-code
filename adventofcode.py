@@ -52,6 +52,7 @@ def give_the_solution_day_2_1(file_name):
     checksum = sum(list_of_diff)
     return checksum
 
+
 def give_the_solution_day_2_2(file_name):
     with open(file_name, "r") as f:
         list_of_lines = f.read().splitlines()
@@ -78,12 +79,28 @@ def give_the_solution_day_2_2(file_name):
     return checksum
 
 
+def give_the_solution_day_3_1(puzzle_input):
+    n = int(puzzle_input ** (0.5)) # find number to make a square
+    square = n**2 # find the greatest square for the puzzle_input
+
+    if square == puzzle_input:
+        steps = n - 1
+    elif square < puzzle_input:
+        r = puzzle_input - square
+        if r > n:
+            steps = (r - n) - 1
+        elif r <= n:
+            steps = r
+
+    return steps
+
 
 
 def main():
     #print(give_the_solution_day_1_1("day1.txt"))
     #print(give_the_solution_day_1_2("day1.txt"))
     #print(give_the_solution_day_2_1("day2.txt"))
-    print(give_the_solution_day_2_2("day2.txt"))
+    #print(give_the_solution_day_2_2("day2.txt"))
+    print(give_the_solution_day_3_1(23))
 if __name__ == '__main__':
     main()
