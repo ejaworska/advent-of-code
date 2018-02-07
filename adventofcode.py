@@ -94,6 +94,61 @@ def give_the_solution_day_3_1(puzzle_input):
 
     return steps
 
+def give_the_solution_day_3_2(n):
+    spiral = {}
+    spiral[(0,0)] = 1
+
+    NEIGHBORS = [(1,0), (1,1), (0,1), (-1,1), (-1,0), (-1,-1), (0,-1), (1,-1)]
+    DIRECTION = [(1,0), (0,1), (-1,0), (0,-1)] #Right Up Left Down
+
+    spiral = {}               # Spiral dictionary
+    spiral[(0,0)] = 1
+    x,y = 0,0
+    steps_in_row = 1          # times spiral extends in same direction
+    second_direction = False  # spiral extends in same direction twice: False if first leg, True if second
+    nstep = 0                 # number of steps in current direction
+    step_direction = 0        # index of direction in DIRECTION
+
+    while True:
+        dx, dy = DIRECTION[step_direction]
+        x, y = x + dx, y + dy
+        total = 0
+        for neighbor in NEIGHBORS:
+            nx, ny = neighbor
+            if (x+nx, y+ny) in spiral:
+                total += spiral[(x+nx, y+ny)]
+
+        print("X: {}, Y:{}, Total:{}".format(x,y,total))
+
+        if total > n:
+            return total
+        spiral[(x,y)] = total
+        nstep += 1
+        if nstep == steps_in_row:
+            nstep = 0
+            step_direction = (step_direction + 1)% 4
+            if second_direction:
+                second_direction = False
+                steps_in_row += 1
+            else:
+                second_direction = True
+
+
+def give_the_solution_day_4_1(file_name):
+    
+    with open(file_name, "r") as my_file:
+        list_of_rows = my_file.read().splitlines()
+    list_of_lists = []
+    for row in list_of_rows:
+        list_of_lists.append(row.split(" "))
+    valid = 0
+    for list_ in list_of_lists:
+        if len(list_) == len(set(list_)):
+            valid += 1
+    return valid
+
+
+
 
 
 def main():
@@ -101,6 +156,8 @@ def main():
     #print(give_the_solution_day_1_2("day1.txt"))
     #print(give_the_solution_day_2_1("day2.txt"))
     #print(give_the_solution_day_2_2("day2.txt"))
-    print(give_the_solution_day_3_1(23))
+    #print(give_the_solution_day_3_1(23))
+    #print(give_the_solution_day_3_2(361527))
+    print(give_the_solution_day_4_1("day4.txt"))
 if __name__ == '__main__':
     main()
