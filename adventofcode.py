@@ -180,6 +180,28 @@ def check_valid_passphrases(list_of_lists):
     return valid
 
 
+def give_the_solution_day_5_1(file_name):
+
+    jump_list = open_file_as_list_of_rows(file_name)
+
+    for i in range(len(jump_list)):
+        jump_list[i] = int(jump_list[i])
+
+    jump = 0
+    index = 0
+    number = jump_list[index]
+    while True:
+        try:
+            jump += 1
+            index += number
+            jump_list[index - number] += 1
+            number = jump_list[index]
+        except IndexError:
+            print("The exit is reached in", jump, "jumps")
+            break
+
+
+
 def main():
     #print(give_the_solution_day_1_1("day1.txt"))
     #print(give_the_solution_day_1_2("day1.txt"))
@@ -187,9 +209,10 @@ def main():
     #print(give_the_solution_day_2_2("day2.txt"))
     #print(give_the_solution_day_3_1(23))
     #print(give_the_solution_day_3_2(361527))
-    print(give_the_solution_day_4_1("day4.txt"))
-    print(give_the_solution_day_4_2("day4.txt"))
+    #print(give_the_solution_day_4_1("day4.txt"))
+    #print(give_the_solution_day_4_2("day4.txt"))
+    give_the_solution_day_5_1("day5.txt")
 
-    
+
 if __name__ == '__main__':
     main()
