@@ -135,20 +135,49 @@ def give_the_solution_day_3_2(n):
 
 
 def give_the_solution_day_4_1(file_name):
-    
+
+    list_of_rows = open_file_as_list_of_rows(file_name)
+    list_of_lists = split_rows_in_list_of_rows(list_of_rows)
+    return check_valid_passphrases(list_of_lists)
+
+
+def give_the_solution_day_4_2(file_name):
+
+    list_of_rows = open_file_as_list_of_rows(file_name)
+    list_of_lists = split_rows_in_list_of_rows(list_of_rows)
+
+    for list_ in list_of_lists:
+        for i in range(len(list_)):
+            list_[i] = sorted(list_[i])
+
+    for list_ in list_of_lists:
+        for i in range(len(list_)):
+            list_[i] = "".join(list_[i])
+
+    return check_valid_passphrases(list_of_lists)
+
+
+def open_file_as_list_of_rows(file_name):
+
     with open(file_name, "r") as my_file:
         list_of_rows = my_file.read().splitlines()
+    return list_of_rows
+
+
+def split_rows_in_list_of_rows(list_of_rows):
     list_of_lists = []
     for row in list_of_rows:
         list_of_lists.append(row.split(" "))
+    return list_of_lists
+
+
+def check_valid_passphrases(list_of_lists):
+
     valid = 0
     for list_ in list_of_lists:
         if len(list_) == len(set(list_)):
             valid += 1
     return valid
-
-
-
 
 
 def main():
@@ -159,5 +188,8 @@ def main():
     #print(give_the_solution_day_3_1(23))
     #print(give_the_solution_day_3_2(361527))
     print(give_the_solution_day_4_1("day4.txt"))
+    print(give_the_solution_day_4_2("day4.txt"))
+
+    
 if __name__ == '__main__':
     main()
