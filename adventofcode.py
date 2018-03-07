@@ -7,6 +7,26 @@ def return_string_from_file(file_name):
         return line
 
 
+def open_file_as_list_of_lines(file_name):
+    with open(file_name, "r") as my_file:
+        list_of_lines = my_file.read().splitlines()
+    return list_of_lines
+
+
+def split_lines_in_list(list_of_lines, char):
+    for i in range(len(list_of_lines)):
+        list_of_lines[i] = list_of_lines[i].split(char)
+    return list_of_lines
+
+
+def change_type_of_line_element_to_integer(list_of_lines):
+    for line in list_of_lines:
+        for i in range(len(line)):
+            line[i] = int(line[i])
+    return list_of_lines
+
+
+
 def give_the_solution_day_1_1(file_name):
     """The captcha requires you to review a sequence of digits (your puzzle input)
      and find the sum of all digits that match the next digit in the list. The list
@@ -18,7 +38,7 @@ def give_the_solution_day_1_1(file_name):
 
     sum_puzzle = 0
 
-    for i in range(len(puzzle)-1):
+    for i in range(len(puzzle_input)):
         if int(puzzle[i]) == int(puzzle[i+1]):
             sum_puzzle += int(puzzle[i])
 
@@ -48,7 +68,7 @@ def give_the_solution_day_2_1(file_name):
 
     list_of_lines = open_file_as_list_of_lines(file_name)
 
-    split_lines_in_list(list_of_lines)
+    split_lines_in_list(list_of_lines, "\t")
 
     change_type_of_line_element_to_integer(list_of_lines)
 
@@ -68,11 +88,11 @@ def give_the_solution_day_2_2(file_name):
 
     list_of_lines = open_file_as_list_of_lines(file_name)
 
-    split_lines_in_list(list_of_lines)
+    split_lines_in_list(list_of_lines, "\t")
 
     change_type_of_line_element_to_integer(list_of_lines)
 
-    list_of_per = []#lista zawierajća listy zawierające tuple
+    list_of_per = []#list of lists containing tuples
     for i in range(len(list_of_lines)):
         list_of_per.append(list(itertools.permutations(list_of_lines[i], 2)))
 
@@ -82,21 +102,9 @@ def give_the_solution_day_2_2(file_name):
             if set_[0]%set_[1] == 0:
                 division_results.append(set_[0]/set_[1])
 
-    checksum = int(sum(division_results))
+    checksum = int(sum(division_results)) # remove floating point
     return checksum
 
-
-def split_lines_in_list(list_of_lines):
-    for i in range(len(list_of_lines)):
-        list_of_lines[i] = list_of_lines[i].split("\t")
-    return list_of_lines
-
-
-def change_type_of_line_element_to_integer(list_of_lines):
-    for line in list_of_lines:
-        for i in range(len(line)):
-            line[i] = int(line[i])
-    return list_of_lines
 
 
 def give_the_solution_day_3_1(puzzle_input):
@@ -158,42 +166,11 @@ def give_the_solution_day_3_2(n):
 def give_the_solution_day_4_1(file_name):
     """A passphrase consists of a series of words (lowercase letters) separated by spaces.
     A valid passphrase must contain no duplicate words. How many passphrases are valid?"""
-
-    list_of_lines = open_file_as_list_of_lines(file_name)
-    list_of_lists = split_lines_in_list_of_lines(list_of_lines)
+    list_of_lines = open_file_as_list_of_lines(file_na    me)
+    list_of_lists = split_lines_in_list(list_of_line    s, " ")
     return check_valid_passphrases(list_of_lists)
 
-
-def give_the_solution_day_4_2(file_name):
-    """A valid passphrase must contain no two words that are anagrams of each other.
-    How many passphrases are valid?"""
-
-    list_of_lines = open_file_as_list_of_lines(file_name)
-    list_of_lists = split_lines_in_list_of_lines(list_of_lines)
-
-    for list_ in list_of_lists:
-        for i in range(len(list_)):
-            list_[i] = sorted(list_[i])
-
-    for list_ in list_of_lists:
-        for i in range(len(list_)):
-            list_[i] = "".join(list_[i])
-
-    return check_valid_passphrases(list_of_lists)
-
-
-def open_file_as_list_of_lines(file_name):
-    with open(file_name, "r") as my_file:
-        list_of_lines = my_file.read().splitlines()
-    return list_of_lines
-
-
-def split_lines_in_list_of_lines(list_of_lines):
-    list_of_lists = []
-    for row in list_of_lines:
-        list_of_lists.append(row.split(" "))
-    return list_of_lists
-
+    
 
 def check_valid_passphrases(list_of_lists):
     valid = 0
@@ -201,6 +178,24 @@ def check_valid_passphrases(list_of_lists):
         if len(list_) == len(set(list_)):
             valid += 1
     return valid
+
+
+
+def give_the_solution_day_4_2(file_name):
+    """A valid passphrase must contain no two words that are anagrams of each other.
+    How many passphrases are valid?"""
+
+
+    list_of_lines = open_file_as_list_of_lines(file_name)
+    list_of_lists = split_lines_in_list(list_of_lines, " ")
+
+    for list_ in list_of_lists:
+        for i in range(len(list_)):
+            list_[i] = "".join(sorted(list_[i]))
+
+
+    return check_valid_passphrases(list_of_lists)
+
 
 
 def give_the_solution_day_5_1(file_name):
@@ -222,7 +217,7 @@ def give_the_solution_day_5_1(file_name):
         try:
             jump += 1
             index += offset
-            offsets_list[index - offset] += 1
+            offsets_list[index - offset] += 1 # instruction is incremented to 1
             offset = offsets_list[index]
         except IndexError:
             print("The exit is reached in", jump, "jumps")
@@ -261,8 +256,8 @@ def main():
     print(give_the_solution_day_1_2("day1.txt"))
     print(give_the_solution_day_2_1("day2.txt"))
     print(give_the_solution_day_2_2("day2.txt"))
-    print(give_the_solution_day_3_1(361527))
-    print(give_the_solution_day_3_2(361527))
+    #print(give_the_solution_day_3_1(361527))
+    #print(give_the_solution_day_3_2(361527))
     print(give_the_solution_day_4_1("day4.txt"))
     print(give_the_solution_day_4_2("day4.txt"))
     give_the_solution_day_5_1("day5.txt")
